@@ -35,18 +35,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(nlohmann_json REQUIRED)
-find_package(toml11 REQUIRED)
+# find_package(toml11 REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(GTest REQUIRED)
 include(FetchContent)
 
 FetchContent_Declare(
   quicklib
-  # GIT_REPOSITORY https://github.com/xbazzi/quicklib.git
-  # GIT_TAG        master
+  GIT_REPOSITORY https://github.com/xbazzi/quicklib.git
+  GIT_TAG        master
+
   # Local for testing
   # SOURCE_DIR       /path/to/local/quicklib
-  SOURCE_DIR       /home/xbazzi/repos/quicklib
+  # SOURCE_DIR       /home/xbazzi/repos/quicklib
 )
 
 # Disable building tests and benchmarks for quicklib dependency
@@ -102,7 +103,7 @@ target_include_directories(fiah_common PUBLIC
 )
 target_link_libraries(fiah_common PUBLIC
   nlohmann_json::nlohmann_json
-  toml11::toml11
+  # toml11::toml11
 )
 
 add_executable(client src/fiah/client/main.cc)
@@ -131,13 +132,11 @@ target_link_libraries(server PRIVATE
 
 target_include_directories(server PRIVATE 
   ${CMAKE_SOURCE_DIR}/include
-  ${CMAKE_CURRENT_BINARY_DIR} # For generated *.pb.h
 )
 
 
 target_include_directories(client PRIVATE 
   ${CMAKE_SOURCE_DIR}/include
-  ${CMAKE_CURRENT_BINARY_DIR} # For generated *.pb.h
 )
 
 # ============================================================================
@@ -161,7 +160,6 @@ set_target_properties(unit_tests PROPERTIES
 target_include_directories(unit_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/tests        # For test utilities and headers
-    ${CMAKE_CURRENT_BINARY_DIR}      # For generated files
     ${quicklib_SOURCE_DIR}/include
 )
 
@@ -198,7 +196,6 @@ if(BENCHMARK_SOURCES)
     target_include_directories(benchmarks PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/benchmarks   # For benchmark utilities
-        ${CMAKE_CURRENT_BINARY_DIR}      # For generated files
         ${quicklib_SOURCE_DIR}/include
     )
 
