@@ -19,9 +19,9 @@ Minimum / runtime build deps:
 - toml11 (CMake: `find_package(toml11 REQUIRED)`) — package name may vary per distro
 
 Additional (for tests / benchmarks / dev):
-- Google Test (`find_package(GTest REQUIRED)`) — used by unit tests
-- Google Benchmark (`find_package(benchmark REQUIRED)`) — used by benchmarks
-- quicklib — pulled via CMake FetchContent; make sure a copy of quicklib is available or adjust the FetchContent SOURCE_DIR in `CMakeLists.txt` (the project expects a local quicklib source by default)
+- Google Test (`find_package(GTest REQUIRED)`)
+- Google Benchmark (`find_package(benchmark REQUIRED)`)
+- quicklib — pulled via CMake FetchContent; make sure a copy of quicklib is available or adjust the FetchContent SOURCE_DIR in `CMakeLists.txt` (the project grabs it from GitHub by default)
 
 Notes:
 - `GTest` and `benchmark` are only required if you build and run `all`, `unit_tests` or `benchmarks` targets.
@@ -73,7 +73,7 @@ make all
 ## Using non-Nix package managers
 If you prefer not to use Nix, just install the dependencies shown above for your distro.
 
-Once you have the dependencies, just run the Makefile from the project root:
+Once you have the dependencies, run the Makefile from the project root:
 
 ```bash
 make all
@@ -88,7 +88,7 @@ First, run the server:
 ./build/bin/server &
 ```
 
-Then run the client. Preferably in another terminal to distinguish its output from the server:
+Then run the client, preferably in another terminal so the output doesn't get interleaved with the server's:
 
 ```bash
 ./build/bin/client
