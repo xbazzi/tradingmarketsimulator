@@ -58,13 +58,6 @@ auto Core::initialize_server() -> std::expected<void, CoreError>
     {
         LOG_ERROR("Core failed to start TCP server on ", market_ip, ':', std::to_string(market_port), ", with error: ");
         return std::unexpected(CoreError::INIT_SERVER_FAIL);
-
-        // throw CoreException(
-        //     "Core failed to start TCP server on "
-        //     + market_ip + ':' + std::to_string(market_port)
-        //     + ", with error: ",
-        //     result.error()
-        // );
     }
     m_server_started.store(true, std::memory_order_release);
     return {};
