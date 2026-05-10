@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string_view>
 
-namespace mms::utils
+namespace mms
 {
 using namespace std::literals::chrono_literals;
 
@@ -64,4 +64,4 @@ class Timer
         stop();
     }
 };
-} // End namespace mms::utils
+} // End namespace mms

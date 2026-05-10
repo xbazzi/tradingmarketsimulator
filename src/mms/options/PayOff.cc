@@ -1,7 +1,7 @@
 #include "mms/options/PayOffCall.hh"
 #include "mms/options/PayOffPut.hh"
 
-namespace mms::options
+namespace mms
 {
 
 PayOff::PayOff()
@@ -38,4 +38,4 @@ double PayOffPut::operator()(const double S) const
     return std::max(_K - S, 0.0); // Standard European put pay-off
 }
 
-} // namespace mms::options
+} // namespace mms

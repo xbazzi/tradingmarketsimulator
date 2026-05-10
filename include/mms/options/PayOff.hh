@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace mms::options
+namespace mms
 {
 
 class PayOff
@@ -13,4 +13,4 @@ class PayOff
 
     virtual double operator()(const double S) const = 0;
 };
-} // namespace mms::options
+} // namespace mms

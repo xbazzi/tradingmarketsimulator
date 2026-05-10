@@ -11,9 +11,9 @@
 #include "mms/app/Controller.hh"
 #include "mms/structs/Structs.hh"
 #include "mms/utils/TomlParser.hh"
-#include "quick/io/Config.hh"
-#include "quick/utils/SimpleLogger.hh"
-#include "quick/utils/Timer.hh"
+#include "fiah/io/Config.hh"
+#include "fiah/utils/SimpleLogger.hh"
+#include "fiah/utils/Timer.hh"
 
 void print_help()
 {
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     std::cout << "Unknown standard library\n";
 #endif
     // initialize the simple global logger for this binary
-    quick::utils::init("main");
+    fiah::init("main");
     LOG_DEBUG_S("Client entrypoint (client_main.cc) started.");
 
     if (argc < 2)
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    quick::Config config{path};
+    fiah::Config config{path};
     if (!config.parse_config())
     {
         std::cout << "Unable to parse config" << '\n';

@@ -7,9 +7,9 @@
 // Third Party Includes
 
 // MarketMakerSimulator Includes
-#include "quick/structs/SPSCQueue.hh"
+#include "fiah/structs/SPSCQueue.hh"
 
-namespace mms::structs
+namespace mms
 {
 
 ///
@@ -79,9 +79,9 @@ struct Task
 struct Worker
 {
     std::thread thread;
-    quick::structs::SPSCQueue<Task, 1024> queue;
+    fiah::SPSCQueue<Task, 1024> queue;
     std::atomic<bool> running{true};
     int cpu_affinity;
 };
 
-} // End namespace mms::structs
+} // End namespace mms

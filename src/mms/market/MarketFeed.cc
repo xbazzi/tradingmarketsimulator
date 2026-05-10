@@ -6,12 +6,12 @@
 // MarketMakerSimulator Includes
 #include "mms/error/CoreException.hh"
 #include "mms/market/MarketFeed.hh"
-#include <quick/utils/Timer.hh>
+#include <fiah/utils/Timer.hh>
 
-namespace mms::io
+namespace mms
 {
 
-MarketFeed::MarketFeed(const quick::Config &config, quick::structs::SPSCQueue<MarketData, 4096UL> &queue)
+MarketFeed::MarketFeed(const fiah::Config &config, fiah::SPSCQueue<MarketData, 4096UL> &queue)
     : m_config(config), m_market_data_queue(queue)
 {
     LOG_DEBUG("MarketFeed constructed");
@@ -25,7 +25,7 @@ MarketFeed::~MarketFeed()
 
 auto MarketFeed::initialize() -> std::expected<void, CoreError>
 {
-    quick::utils::Timer timer{"MarketFeed::initialize()"};
+    fiah::Timer timer{"MarketFeed::initialize()"};
 
     if (is_initialized())
     {
@@ -36,7 +36,7 @@ auto MarketFeed::initialize() -> std::expected<void, CoreError>
     const std::string &market_ip = m_config.get_market_ip();
     std::uint16_t market_port = m_config.get_market_port();
 
-    p_tcp_client = quick::handle::make_unique<quick::io::TcpClient>(market_ip, market_port);
+    p_tcp_client = fiah::make_unique<fiah::TcpClient>(market_ip, market_port);
 
     LOG_INFO("MarketFeed initialized with market server ip: ", market_ip, ", and port: ", market_port);
 
@@ -68,7 +68,7 @@ auto MarketFeed::_reconnect() -> std::expected<void, CoreError>
     m_initialized.store(false, std::memory_order_release);
 
     // Create new client and attempt connection
-    p_tcp_client = quick::handle::make_unique<quick::io::TcpClient>(market_ip, market_port);
+    p_tcp_client = fiah::make_unique<fiah::TcpClient>(market_ip, market_port);
 
     auto connect_result = p_tcp_client->connect_to_server();
     if (!connect_result.has_value())
@@ -94,7 +94,7 @@ void MarketFeed::receive_loop(std::atomic<bool> &running_flag)
 
         while (running_flag.load(std::memory_order_acquire))
         {
-            quick::utils::Timer timer("MarketFeed::receive_loop");
+            fiah::Timer timer("MarketFeed::receive_loop");
 
             // Critical: Validate p_tcp_client exists before dereferencing
             if (!p_tcp_client)
@@ -204,4 +204,4 @@ void MarketFeed::stop()
              ", Queue full events: ", m_queue_full_count.load(std::memory_order_relaxed));
 }
 
-} // namespace mms::io
+} // namespace mms

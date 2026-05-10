@@ -1,7 +1,7 @@
 #include "mms/options/PayOffDoubleDigital.hh"
 #include <iostream>
 
-using namespace mms::options;
+using namespace mms;
 
 int main(int argc, char **argv)
 {

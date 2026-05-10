@@ -91,13 +91,13 @@ The `TestConfigBuilder` class helps create test configurations:
 #include "test_utils.hh"
 
 // Use default config from config.toml
-auto config = mms::testing::create_default_test_config();
+auto config = mms::create_default_test_config();
 
 // Create custom config with specific port
-auto config = mms::testing::create_test_config_with_port(8080);
+auto config = mms::create_test_config_with_port(8080);
 
 // Build fully custom config
-auto config = mms::testing::TestConfigBuilder()
+auto config = mms::TestConfigBuilder()
     .with_market_ip("192.168.1.100")
     .with_market_port(9000)
     .with_temp_config()
@@ -114,7 +114,7 @@ RAII wrapper for temporary files that cleans up automatically:
 TEST_F(MyTest, WorksWithTempFile)
 {
     auto temp_path = std::filesystem::temp_directory_path() / "test.dat";
-    mms::testing::TempFileGuard guard(temp_path);
+    mms::TempFileGuard guard(temp_path);
 
     // Use temp_path...
     // File is automatically deleted when guard goes out of scope

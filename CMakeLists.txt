@@ -41,27 +41,20 @@ find_package(GTest REQUIRED)
 include(FetchContent)
 
 FetchContent_Declare(
-  quicklib
-  GIT_REPOSITORY https://github.com/xbazzi/quicklib.git
+  fastinahurry
+  GIT_REPOSITORY https://gitgud.boo/xbazzi/fastinahurry.git
   GIT_TAG        master
 
   # Local for testing
-  # SOURCE_DIR       /path/to/local/quicklib
-  # SOURCE_DIR       /home/xbazzi/repos/quicklib
+  # SOURCE_DIR       /path/to/local/fastinahurry
+  # SOURCE_DIR       /home/xbazzi/repos/fastinahurry
 )
 
-# Disable building tests and benchmarks for quicklib dependency
+# Disable building tests and benchmarks for fastinahurry dependency
 set(BUILD_TESTING OFF)
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 set(SKIP_BENCHMARKS ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(quicklib)
-set(QUICKLIB_TCP_HEADER "${quicklib_SOURCE_DIR}/include/quick/io/Tcp.hh")
-if(EXISTS "${QUICKLIB_TCP_HEADER}")
-    string(CONCAT LEGACY_ERROR_INCLUDE "fi" "ah/error/Error.hh")
-    file(READ "${QUICKLIB_TCP_HEADER}" QUICKLIB_TCP_HEADER_CONTENT)
-    string(REPLACE "${LEGACY_ERROR_INCLUDE}" "mms/error/Error.hh" QUICKLIB_TCP_HEADER_CONTENT "${QUICKLIB_TCP_HEADER_CONTENT}")
-    file(WRITE "${QUICKLIB_TCP_HEADER}" "${QUICKLIB_TCP_HEADER_CONTENT}")
-endif()
+FetchContent_MakeAvailable(fastinahurry)
 set(BUILD_TESTING ON)
 
 
@@ -106,7 +99,7 @@ target_compile_features(mms_common PRIVATE cxx_std_23)
 target_include_directories(mms_common PUBLIC
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_CURRENT_BINARY_DIR}
-  ${quicklib_SOURCE_DIR}/include
+  ${fastinahurry_SOURCE_DIR}/include
 )
 target_link_libraries(mms_common PUBLIC
   nlohmann_json::nlohmann_json
@@ -167,7 +160,7 @@ set_target_properties(unit_tests PROPERTIES
 target_include_directories(unit_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/tests        # For test utilities and headers
-    ${quicklib_SOURCE_DIR}/include
+    ${fastinahurry_SOURCE_DIR}/include
 )
 
 target_link_libraries(unit_tests PRIVATE
@@ -203,7 +196,7 @@ if(BENCHMARK_SOURCES)
     target_include_directories(benchmarks PRIVATE
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/benchmarks   # For benchmark utilities
-        ${quicklib_SOURCE_DIR}/include
+        ${fastinahurry_SOURCE_DIR}/include
     )
 
     target_link_libraries(benchmarks PRIVATE

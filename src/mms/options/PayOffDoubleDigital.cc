@@ -1,6 +1,6 @@
 #include "mms/options/PayOffDoubleDigital.hh"
 
-namespace mms::options
+namespace mms
 {
 
 // Constructor with two strike parameters, upper and lower barrier
@@ -26,4 +26,4 @@ double PayOffDoubleDigital::operator()(const double S) const
         return 0.0;
     }
 }
-} // namespace mms::options
+} // namespace mms

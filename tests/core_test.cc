@@ -6,7 +6,7 @@
 #include "mms/app/Core.hh"
 #include "mms/error/CoreException.hh"
 #include "mms/error/Error.hh"
-#include "quick/io/Config.hh"
+#include "fiah/io/Config.hh"
 #include "test_utils.hh"
 
 using namespace mms;
@@ -22,13 +22,13 @@ class CoreTestFixture : public ::testing::Test
 {
   protected:
     std::unique_ptr<Core> p_core;
-    quick::Config config_;
+    fiah::Config config_;
 
     /// @brief Called before each test
     void SetUp() override
     {
         // Create a fresh config for each test
-        config_ = mms::testing::create_default_test_config();
+        config_ = mms::create_default_test_config();
     }
 
     /// @brief Called after each test
@@ -49,7 +49,7 @@ class CoreTestFixture : public ::testing::Test
     }
 
     /// @brief Helper to create algo with custom config
-    void create_p_corewith_config(quick::Config custom_config)
+    void create_p_corewith_config(fiah::Config custom_config)
     {
         p_core = std::make_unique<Core>(std::move(custom_config));
     }
@@ -148,7 +148,7 @@ TEST_F(CoreServerTest, InitializeServerTwiceIsIdempotent)
 TEST_F(CoreServerTest, InitializeServerWithCustomPort)
 {
     // Use a different port to avoid conflicts
-    auto custom_config = mms::testing::create_test_config_with_port(0); // Port 0 lets OS choose
+    auto custom_config = mms::create_test_config_with_port(0); // Port 0 lets OS choose
     create_p_corewith_config(std::move(custom_config));
 
     auto result = p_core->initialize_server();

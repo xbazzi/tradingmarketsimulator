@@ -5,16 +5,16 @@
 // MarketMakerSimulator Includes
 #include "mms/app/Controller.hh"
 #include "mms/app/Core.hh"
-#include "quick/handle/UniquePtr.hh"
-#include "quick/io/Config.hh"
-#include "quick/utils/Logger.hh"
-#include "quick/utils/Timer.hh"
+#include "fiah/handle/UniquePtr.hh"
+#include "fiah/io/Config.hh"
+#include "fiah/utils/Logger.hh"
+#include "fiah/utils/Timer.hh"
 
 namespace mms
 {
 
-Controller::Controller(quick::Config &&config) noexcept(noexcept(CoreUniquePtr()))
-    : p_core{quick::handle::make_unique<Core>(std::move(config))}
+Controller::Controller(fiah::Config &&config) noexcept(noexcept(CoreUniquePtr()))
+    : p_core{fiah::make_unique<Core>(std::move(config))}
 {
 }
 
@@ -59,7 +59,7 @@ bool Controller::start_server() noexcept
         p_core->work_server();
         return 0;
     }
-    catch (error::CoreException &e)
+    catch (CoreException &e)
     {
         LOG_ERROR("Controller failed to start server (mms::CoreException): ", e.what());
         return 1;
@@ -97,7 +97,7 @@ bool Controller::start_client() noexcept
         p_core->stop_client();
         return 0;
     }
-    catch (error::CoreException &e)
+    catch (CoreException &e)
     {
         LOG_ERROR("Controller failed to start client (mms::CoreException): ", e.what());
         return 1;

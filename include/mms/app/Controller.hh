@@ -3,9 +3,9 @@
 #endif
 
 #include "mms/app/Core.hh"
-#include "quick/handle/UniquePtr.hh"
-#include "quick/io/Config.hh"
-#include "quick/utils/Logger.hh"
+#include "fiah/handle/UniquePtr.hh"
+#include "fiah/io/Config.hh"
+#include "fiah/utils/Logger.hh"
 
 namespace mms
 {
@@ -19,18 +19,18 @@ class Controller
 {
   public:
     Controller() noexcept = default;
-    explicit Controller(quick::Config &&) noexcept(noexcept(CoreUniquePtr()));
-    explicit Controller(const quick::Config &) = delete;
+    explicit Controller(fiah::Config &&) noexcept(noexcept(CoreUniquePtr()));
+    explicit Controller(const fiah::Config &) = delete;
     bool start_server() noexcept;
     bool start_client() noexcept;
     bool init_client() noexcept;
     bool init_server() noexcept;
 
   private:
-    using CoreUniquePtr = quick::handle::UniquePtr<Core>;
+    using CoreUniquePtr = fiah::UniquePtr<Core>;
     CoreUniquePtr p_core{nullptr};
-    static inline quick::utils::Logger<Controller> &m_logger{
-        quick::utils::Logger<Controller>::get_instance("Controller")};
+    static inline fiah::Logger<Controller> &m_logger{
+        fiah::Logger<Controller>::get_instance("Controller")};
 };
 
 } // End namespace mms

@@ -1,6 +1,6 @@
 #include "PayOff.hh"
 
-namespace mms::options
+namespace mms
 {
 
 class PayOffDoubleDigital : public PayOff
@@ -19,4 +19,4 @@ class PayOffDoubleDigital : public PayOff
     // Pay-off is 1 if spot within strike barriers, 0 otherwise
     virtual double operator()(const double S) const;
 };
-} // namespace mms::options
+} // namespace mms

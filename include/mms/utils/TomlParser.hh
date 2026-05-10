@@ -20,14 +20,14 @@
 #include <vector>
 
 // QUICK Includes
-#include "quick/utils/Logger.hh"
+#include "fiah/utils/Logger.hh"
 
 // Third Party Includes
 
 // MarketMakerSimulator Includes
 #include "mms/error/Error.hh"
 
-namespace mms::utils
+namespace mms
 {
 /**
  * @brief Simple TOML parser for configuration files
@@ -39,8 +39,8 @@ class TomlParser
     // std::ifstream m_ifs;
     std::filesystem::path m_filepath;
     std::vector<std::string> m_sections;
-    static inline quick::utils::Logger<TomlParser> &m_logger{
-        quick::utils::Logger<TomlParser>::get_instance("TomlParser")};
+    static inline fiah::Logger<TomlParser> &m_logger{
+        fiah::Logger<TomlParser>::get_instance("TomlParser")};
 
     // Map of section -> (key -> value)
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> m_keys;
@@ -84,4 +84,4 @@ class TomlParser
 
     std::optional<std::string> get_value(const std::string &section, const std::string &key) const;
 };
-} // namespace mms::utils
+} // namespace mms

@@ -7,7 +7,7 @@
 
 // MarketMakerSimulator Includes
 #include "mms/app/Controller.hh"
-#include "quick/io/Config.hh"
+#include "fiah/io/Config.hh"
 
 // void RunServer(std::string);
 void print_help()
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    quick::Config config{path};
+    fiah::Config config{path};
     if (!config.parse_config())
     {
         std::cout << "Unable to parse config" << '\n';

@@ -6,9 +6,9 @@
 #include <memory>
 #include <string>
 
-#include "quick/io/Config.hh"
+#include "fiah/io/Config.hh"
 
-namespace mms::testing
+namespace mms
 {
 
 /// @brief Utility class for managing test configurations
@@ -53,7 +53,7 @@ class TestConfigBuilder
     }
 
     /// @brief Build and return the config object
-    quick::Config build()
+    fiah::Config build()
     {
         if (m_use_temp_file)
         {
@@ -64,7 +64,7 @@ class TestConfigBuilder
             m_config_path = "../config.toml";
         }
 
-        quick::Config config(m_config_path);
+        fiah::Config config(m_config_path);
         config.parse_config();
         return config;
     }
@@ -138,13 +138,13 @@ class TestConfigBuilder
 };
 
 /// @brief Helper to create default test config
-inline quick::Config create_default_test_config()
+inline fiah::Config create_default_test_config()
 {
     return TestConfigBuilder().with_config_path("../etc/config.toml").build();
 }
 
 /// @brief Helper to create config with custom port
-inline quick::Config create_test_config_with_port(std::uint16_t port)
+inline fiah::Config create_test_config_with_port(std::uint16_t port)
 {
     return TestConfigBuilder().with_market_port(port).with_temp_config().build();
 }
@@ -197,7 +197,7 @@ class LogCapture
     }
 };
 
-} // namespace mms::testing
+} // namespace mms
 
 // Source - https://stackoverflow.com/a
 // Posted by Mark Lakata, modified by community. See post 'Timeline' for change history

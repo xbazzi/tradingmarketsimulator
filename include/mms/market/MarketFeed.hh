@@ -11,14 +11,14 @@
 // MarketMakerSimulator includes
 #include "mms/error/Error.hh"
 #include "mms/structs/Structs.hh"
-#include "quick/handle/UniquePtr.hh"
-#include "quick/io/Config.hh"
-#include "quick/io/TcpClient.hh"
-#include "quick/structs/SPSCQueue.hh"
-#include "quick/utils/Logger.hh"
-#include "quick/utils/Timer.hh"
+#include "fiah/handle/UniquePtr.hh"
+#include "fiah/io/Config.hh"
+#include "fiah/io/TcpClient.hh"
+#include "fiah/structs/SPSCQueue.hh"
+#include "fiah/utils/Logger.hh"
+#include "fiah/utils/Timer.hh"
 
-namespace mms::io
+namespace mms
 {
 
 /// @brief Handles incoming market data from the network
@@ -42,17 +42,16 @@ namespace mms::io
 class MarketFeed
 {
   private:
-    using MarketData = structs::MarketData;
-    using TcpClientUniquePtr = quick::handle::UniquePtr<quick::io::TcpClient>;
+    using TcpClientUniquePtr = fiah::UniquePtr<fiah::TcpClient>;
 
     /// @brief Configuration reference
-    const quick::Config &m_config;
+    const fiah::Config &m_config;
 
     /// @brief TCP client for receiving market data
     TcpClientUniquePtr p_tcp_client;
 
     /// @brief Reference to market data queue (owned by caller)
-    quick::structs::SPSCQueue<MarketData, 4096UL> &m_market_data_queue;
+    fiah::SPSCQueue<MarketData, 4096UL> &m_market_data_queue;
 
     /// @brief Initialization state
     std::atomic<bool> m_initialized{false};
@@ -64,8 +63,8 @@ class MarketFeed
     alignas(64) std::atomic<uint64_t> m_queue_full_count{0};
 
     /// @brief Logger instance
-    static inline quick::utils::Logger<MarketFeed> &m_logger{
-        quick::utils::Logger<MarketFeed>::get_instance("MarketFeed")};
+    static inline fiah::Logger<MarketFeed> &m_logger{
+        fiah::Logger<MarketFeed>::get_instance("MarketFeed")};
 
     /// @brief Internal reconnection logic
     /// @return Success or CoreError::SERVER_NOT_ONLINE
@@ -75,7 +74,7 @@ class MarketFeed
     /// @brief Construct a MarketFeed
     /// @param config Configuration containing market server details
     /// @param queue Reference to the market data queue to push into
-    explicit MarketFeed(const quick::Config &config, quick::structs::SPSCQueue<MarketData, 4096UL> &queue);
+    explicit MarketFeed(const fiah::Config &config, fiah::SPSCQueue<MarketData, 4096UL> &queue);
 
     /// @brief Destructor
     ~MarketFeed();
@@ -123,4 +122,4 @@ class MarketFeed
     }
 };
 
-} // namespace mms::io
+} // namespace mms

@@ -15,12 +15,12 @@
 #include "mms/structs/Structs.hh"
 
 // Third-Party Includes
-#include <quick/handle/UniquePtr.hh>
-#include <quick/io/Config.hh>
-#include <quick/io/TcpServer.hh>
-#include <quick/structs/SPSCQueue.hh>
-#include <quick/structs/Vector.hh>
-#include <quick/utils/Logger.hh>
+#include <fiah/handle/UniquePtr.hh>
+#include <fiah/io/Config.hh>
+#include <fiah/io/TcpServer.hh>
+#include <fiah/structs/SPSCQueue.hh>
+#include <fiah/structs/Vector.hh>
+#include <fiah/utils/Logger.hh>
 
 namespace mms
 {
@@ -65,18 +65,13 @@ class Core
 {
 
   private:
-    /// @brief We're gonna need these
-    using Signal = structs::Signal;
-    using Order = structs::Order;
-    using MarketData = structs::MarketData;
-
     /// @brief Drop-in replacement for std::unique_ptr<> and std::make_unique<>
-    using ConfigUniquePtr = quick::handle::UniquePtr<quick::Config>;
-    using TcpServerUniquePtr = quick::handle::UniquePtr<quick::io::TcpServer>;
-    using MarketFeedUniquePtr = quick::handle::UniquePtr<io::MarketFeed>;
+    using ConfigUniquePtr = fiah::UniquePtr<fiah::Config>;
+    using TcpServerUniquePtr = fiah::UniquePtr<fiah::TcpServer>;
+    using MarketFeedUniquePtr = fiah::UniquePtr<MarketFeed>;
 
     ConfigUniquePtr p_config;
-    static inline quick::utils::Logger<Core> &m_logger{quick::utils::Logger<Core>::get_instance("Core")};
+    static inline fiah::Logger<Core> &m_logger{fiah::Logger<Core>::get_instance("Core")};
 
     std::atomic<bool> m_server_started{false};
     std::atomic<bool> m_client_started{false};
@@ -85,9 +80,9 @@ class Core
     std::atomic<bool> m_client_running{false};
 
     // Lock-free single-producer, single-consumer queues
-    quick::structs::SPSCQueue<structs::MarketData, 4096UL> m_market_data_queue;
-    quick::structs::SPSCQueue<Signal, 2048UL> m_signal_queue;
-    quick::structs::SPSCQueue<Order, 2048UL> m_order_queue;
+    fiah::SPSCQueue<MarketData, 4096UL> m_market_data_queue;
+    fiah::SPSCQueue<Signal, 2048UL> m_signal_queue;
+    fiah::SPSCQueue<Order, 2048UL> m_order_queue;
 
     /// @brief Receives market data
     std::jthread m_network_thread;
@@ -127,7 +122,7 @@ class Core
     void _set_thread_affinity(std::thread::native_handle_type thread, int cpu_id);
 
   public:
-    explicit Core(quick::Config &&);
+    explicit Core(fiah::Config &&);
     ~Core();
 
     std::expected<void, CoreError> initialize_client();

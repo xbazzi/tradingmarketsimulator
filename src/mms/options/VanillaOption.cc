@@ -3,7 +3,7 @@
 #include <memory>
 #include <print>
 
-namespace mms::options
+namespace mms
 {
 
 // Cumulative distribution function for Gaussian distribution
@@ -121,4 +121,4 @@ double VanillaOption::calc_put_price() const
     double d_2 = d_1 - sigma_sqrt_T;
     return _K * exp(-_r * _T) * N(-d_2) - _S * N(-d_1);
 }
-} // namespace mms::options
+} // namespace mms

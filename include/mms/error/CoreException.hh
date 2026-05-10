@@ -10,9 +10,9 @@
 
 // MarketMakerSimulator includes
 #include "mms/error/Error.hh"
-// #include "quick/io/TcpError.hh"
+// #include "fiah/io/TcpError.hh"
 
-namespace mms::error
+namespace mms
 {
 
 using ErrorVariant = std::variant<std::monostate, TcpError, CoreError, Error>;
@@ -110,6 +110,6 @@ class CoreException : public std::runtime_error
     }
 };
 
-} // namespace mms::error
+} // namespace mms
 
 #endif // CORE_HH

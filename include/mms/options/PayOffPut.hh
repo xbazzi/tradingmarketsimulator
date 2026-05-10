@@ -2,7 +2,7 @@
 
 #include "PayOff.hh"
 
-namespace mms::options
+namespace mms
 {
 
 class PayOffPut : public PayOff
@@ -15,4 +15,4 @@ class PayOffPut : public PayOff
     virtual ~PayOffPut() {};
     virtual double operator()(const double S) const; // max(S - K, 0)
 };
-} // namespace mms::options
+} // namespace mms

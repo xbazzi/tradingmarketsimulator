@@ -21,12 +21,12 @@ Minimum / runtime build deps:
 Additional (for tests / benchmarks / dev):
 - Google Test (`find_package(GTest REQUIRED)`)
 - Google Benchmark (`find_package(benchmark REQUIRED)`)
-- quicklib — pulled via CMake FetchContent; make sure a copy of quicklib is available or adjust the FetchContent SOURCE_DIR in `CMakeLists.txt` (the project grabs it from GitHub by default)
+- fastinahurry — pulled via CMake FetchContent; make sure a copy of fastinahurry is available or adjust the FetchContent SOURCE_DIR in `CMakeLists.txt` (the project grabs it from GitGud by default)
 
 Notes:
 - `GTest` and `benchmark` are only required if you build and run `all`, `unit_tests` or `benchmarks` targets.
 - `toml11` package names vary; if your distro doesn't provide it, install from the upstream repo or add a small header-only copy.
-- `quicklib` is available at `https://github.com/xbazzi/quicklib.git`. 
+- `fastinahurry` is available at `https://gitgud.boo/xbazzi/fastinahurry.git`. 
 
 Again, using the Nix development environment will install all the dependencies and set up the environment variables for you.
 

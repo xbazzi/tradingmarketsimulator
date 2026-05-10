@@ -5,7 +5,7 @@
 
 // MarketMakerSimulator Includes
 
-namespace mms::utils
+namespace mms
 {
 /**
  * @brief Constants used throughout the MarketMakerSimulator project.
@@ -20,4 +20,4 @@ namespace mms::utils
     static constexpr const std::uint16_t CACHE_LINE_SIZE = 64;
 }
 #endif // __cpp_lib_hardware_interference_size
-} // namespace mms::utils
+} // namespace mms

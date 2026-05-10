@@ -1,6 +1,6 @@
 #pragma once
 
-namespace mms::options
+namespace mms
 {
 
 class VanillaOption
@@ -32,4 +32,4 @@ class VanillaOption
     double calc_call_price() const;
     double calc_put_price() const;
 };
-} // namespace mms::options
+} // namespace mms
