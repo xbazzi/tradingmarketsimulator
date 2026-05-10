@@ -45,7 +45,7 @@
           ];
           shell = pkgs.zsh;
           shellHook = ''
-            echo "Welcome to the FastInAHurry flake dev shell"
+            echo "Welcome to the MarketMakerSimulator flake dev shell"
             export CC=gcc
             export CXX=g++
           '';

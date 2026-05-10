@@ -26,13 +26,13 @@ jobs:
 
           # 🪞 GitHub Mirror
           
-          This is an automated mirror of the repository hosted on [GitGud.foo/xbazzi/fastinahurry](https://gitgud.foo/xbazzi/fastinahurry).
+          This is an automated mirror of the repository hosted on [GitGud.foo/xbazzi/marketmakersimulator](https://gitgud.foo/xbazzi/marketmakersimulator).
           
           **⚠️ This is a read-only mirror - do not create issues or pull requests here.**
           
           ## 🏠 Original Repository
           
-          Please visit the [original](https://gitgud.foo/xbazzi/fastinahurry) repository for:
+          Please visit the [original](https://gitgud.foo/xbazzi/marketmakersimulator) repository for:
           - 📝 Issues and bug reports
           - 🔄 Pull requests and contributions
           - 📋 Project documentation
@@ -52,7 +52,7 @@ jobs:
           fi
 
           # Add remote
-          git remote add github https://${{ secrets.GH_TOKEN }}@github.com/xbazzi/fastinahurry.git
+          git remote add github https://${{ secrets.GH_TOKEN }}@github.com/xbazzi/marketmakersimulator.git
 
           # Check if GitHub repo is empty
           if git ls-remote --heads github | grep -q refs/heads/; then

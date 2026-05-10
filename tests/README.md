@@ -1,6 +1,6 @@
 # Test Suite Documentation
 
-This directory contains the test suite for the FastInAHurry project using Google Test (GTest).
+This directory contains the test suite for the MarketMakerSimulator project using Google Test (GTest).
 
 ## Directory Structure
 
@@ -47,7 +47,7 @@ TEST_F(ConfigTest, ParseValidConfigReturnsSuccess)
 ```cpp
 #include <gtest/gtest.h>
 #include "test_utils.hh"
-#include "fiah/YourClass.hh"
+#include "mms/YourClass.hh"
 
 // Test fixture with custom setup/teardown
 class YourClassTest : public ::testing::Test
@@ -91,13 +91,13 @@ The `TestConfigBuilder` class helps create test configurations:
 #include "test_utils.hh"
 
 // Use default config from config.toml
-auto config = fiah::testing::create_default_test_config();
+auto config = mms::testing::create_default_test_config();
 
 // Create custom config with specific port
-auto config = fiah::testing::create_test_config_with_port(8080);
+auto config = mms::testing::create_test_config_with_port(8080);
 
 // Build fully custom config
-auto config = fiah::testing::TestConfigBuilder()
+auto config = mms::testing::TestConfigBuilder()
     .with_market_ip("192.168.1.100")
     .with_market_port(9000)
     .with_temp_config()
@@ -114,7 +114,7 @@ RAII wrapper for temporary files that cleans up automatically:
 TEST_F(MyTest, WorksWithTempFile)
 {
     auto temp_path = std::filesystem::temp_directory_path() / "test.dat";
-    fiah::testing::TempFileGuard guard(temp_path);
+    mms::testing::TempFileGuard guard(temp_path);
 
     // Use temp_path...
     // File is automatically deleted when guard goes out of scope
@@ -259,7 +259,7 @@ touch tests/my_module_test.cc
 ```cpp
 #include <gtest/gtest.h>
 #include "test_utils.hh"
-#include "fiah/MyModule.hh"
+#include "mms/MyModule.hh"
 
 class MyModuleTest : public ::testing::Test
 {

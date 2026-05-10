@@ -3,13 +3,13 @@
 #include <memory>
 #include <thread>
 
-#include "fiah/app/Core.hh"
-#include "fiah/error/CoreException.hh"
-#include "fiah/error/Error.hh"
+#include "mms/app/Core.hh"
+#include "mms/error/CoreException.hh"
+#include "mms/error/Error.hh"
 #include "quick/io/Config.hh"
 #include "test_utils.hh"
 
-using namespace fiah;
+using namespace mms;
 using namespace std::chrono_literals;
 
 // ============================================================================
@@ -28,7 +28,7 @@ class CoreTestFixture : public ::testing::Test
     void SetUp() override
     {
         // Create a fresh config for each test
-        config_ = fiah::testing::create_default_test_config();
+        config_ = mms::testing::create_default_test_config();
     }
 
     /// @brief Called after each test
@@ -148,7 +148,7 @@ TEST_F(CoreServerTest, InitializeServerTwiceIsIdempotent)
 TEST_F(CoreServerTest, InitializeServerWithCustomPort)
 {
     // Use a different port to avoid conflicts
-    auto custom_config = fiah::testing::create_test_config_with_port(0); // Port 0 lets OS choose
+    auto custom_config = mms::testing::create_test_config_with_port(0); // Port 0 lets OS choose
     create_p_corewith_config(std::move(custom_config));
 
     auto result = p_core->initialize_server();

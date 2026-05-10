@@ -6,7 +6,7 @@ title = "HFT Config"
 enabled = true
 level = "INFO"  # DEBUG, INFO, WARN, ERROR
 log_to_file = true
-log_path = "/var/log/fiah/trading.log"
+log_path = "/var/log/mms/trading.log"
 max_file_size_mb = 100
 rotation_count = 5
 

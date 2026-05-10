@@ -1,4 +1,4 @@
-# FastInAHurry🏃‍♀️‍➡️
+# MarketMakerSimulator🏃‍♀️‍➡️
 Financial market streaming and order execution simulator written in C++.
 
 Low latency, data locality, and high performance are paramount.

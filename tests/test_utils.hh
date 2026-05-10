@@ -8,7 +8,7 @@
 
 #include "quick/io/Config.hh"
 
-namespace fiah::testing
+namespace mms::testing
 {
 
 /// @brief Utility class for managing test configurations
@@ -72,7 +72,7 @@ class TestConfigBuilder
   private:
     std::filesystem::path create_temp_config_file()
     {
-        auto temp_path = std::filesystem::temp_directory_path() / "fiah_test_config.toml";
+        auto temp_path = std::filesystem::temp_directory_path() / "mms_test_config.toml";
 
         std::ofstream file(temp_path);
         file << "title = \"HFT Config\"\n\n";
@@ -82,7 +82,7 @@ class TestConfigBuilder
         file << "enabled = true\n";
         file << "level = \"INFO\"\n";
         file << "log_to_file = false\n";
-        file << "log_path = \"/tmp/fiah.log\"\n";
+        file << "log_path = \"/tmp/mms.log\"\n";
         file << "max_file_size_mb = 10\n";
         file << "rotation_count = 3\n\n";
 
@@ -127,8 +127,8 @@ class TestConfigBuilder
         file << "enabled = false\n";
         file << "host = \"127.0.0.1\"\n";
         file << "port = 5432\n";
-        file << "name = \"fiah_db\"\n";
-        file << "user = \"fiah\"\n";
+        file << "name = \"mms_db\"\n";
+        file << "user = \"mms\"\n";
         file << "password = \"secret\"\n";
         file << "connection_pool_size = 1\n";
         file.close();
@@ -197,7 +197,7 @@ class LogCapture
     }
 };
 
-} // namespace fiah::testing
+} // namespace mms::testing
 
 // Source - https://stackoverflow.com/a
 // Posted by Mark Lakata, modified by community. See post 'Timeline' for change history
