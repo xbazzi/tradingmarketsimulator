@@ -25,7 +25,7 @@ MarketFeed::~MarketFeed()
 
 auto MarketFeed::initialize() -> std::expected<void, CoreError>
 {
-    fiah::Timer timer{"MarketFeed::initialize()"};
+    fiah::Timer timer{};
 
     if (is_initialized())
     {
@@ -94,7 +94,7 @@ void MarketFeed::receive_loop(std::atomic<bool> &running_flag)
 
         while (running_flag.load(std::memory_order_acquire))
         {
-            fiah::Timer timer("MarketFeed::receive_loop");
+            fiah::Timer timer{};
 
             // Critical: Validate p_tcp_client exists before dereferencing
             if (!p_tcp_client)

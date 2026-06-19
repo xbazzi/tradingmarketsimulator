@@ -1,8 +1,10 @@
 #pragma once
 
-// C++ Includes
 #include <cstdint>
 #include <thread>
+
+#include "mms/market/Price.hh"
+#include "fiah/utils/TimeStamp.hh"
 
 // Third Party Includes
 
@@ -82,6 +84,25 @@ struct Worker
     fiah::SPSCQueue<Task, 1024> queue;
     std::atomic<bool> running{true};
     int cpu_affinity;
+};
+
+constexpr std::uint8_t MAX_SYMBOL_SIZE{6};
+struct Option
+{
+    Price strike;
+    char symbol[MAX_SYMBOL_SIZE];
+    std::uint8_t year;
+    std::uint8_t month;
+    std::uint8_t day;
+};
+
+using TimeStamp = fiah::TimeStamp<>;
+
+struct DepthMessage
+{
+    Option option;
+    TimeStamp ts;
+    std::uint16_t seq;
 };
 
 } // End namespace mms

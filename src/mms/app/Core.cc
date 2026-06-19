@@ -34,7 +34,7 @@ Core::~Core()
 
 auto Core::initialize_server() -> std::expected<void, CoreError>
 {
-    fiah::Timer timer{"Core::initialize_server()"};
+    fiah::Timer timer{};
 
     if (is_server_initialized())
     {
@@ -65,7 +65,7 @@ auto Core::initialize_server() -> std::expected<void, CoreError>
 
 auto Core::initialize_client() -> std::expected<void, CoreError>
 {
-    fiah::Timer timer{"Core::initialize_client()"};
+    fiah::Timer timer{};
     if (is_client_initialized())
     {
         LOG_WARN("MarketFeed already initialized");
@@ -98,7 +98,7 @@ auto Core::initialize_client() -> std::expected<void, CoreError>
 
 auto Core::work_client() -> std::expected<void, CoreError>
 {
-    fiah::Timer timer{"Core::work_client()"};
+    fiah::Timer timer{};
 
     if (is_client_running())
     {
@@ -263,7 +263,7 @@ void Core::_execution_loop()
 
 Signal Core::_compute_signal(const MarketData &md)
 {
-    fiah::Timer timer{"_compute_signal()"};
+    fiah::Timer timer{};
     Signal signal;
     std::memcpy(signal.symbol, md.symbol, sizeof(signal.symbol));
     signal.timestamp_ns = md.timestamp_ns;
@@ -396,7 +396,7 @@ MarketData Core::generate_market_data(std::string symbol)
 
 auto Core::work_server() -> std::expected<void, CoreError>
 {
-    fiah::Timer timer{"Core::work_server()"};
+    fiah::Timer timer{};
     using namespace std::chrono_literals;
 
     if (!is_server_initialized()) [[unlikely]]
@@ -433,7 +433,7 @@ auto Core::work_server() -> std::expected<void, CoreError>
         // Send market data continuously to this client until they disconnect
         for (;;)
         {
-            fiah::Timer timer{"Core::work_server::LOOP"};
+            fiah::Timer timer{};
             if (client_socket.value() < 1)
             {
                 LOG_WARN("Invalid client socket. Breaking send loop.");
