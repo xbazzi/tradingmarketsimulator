@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 4.0)
 project(MarketMakerSimulator CXX)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 enable_testing()
 include(CTest)
 include(GoogleTest)
@@ -82,10 +83,12 @@ file(GLOB_RECURSE COMMON_SRC
 )
 
 # Exclude mains from the common sources
-list(REMOVE_ITEM COMMON_SRC 
+list(REMOVE_ITEM COMMON_SRC
     "${CMAKE_SOURCE_DIR}/src/mms/options/main.cc"
     "${CMAKE_SOURCE_DIR}/src/mms/client/main.cc"
     "${CMAKE_SOURCE_DIR}/src/mms/server/main.cc"
+    "${CMAKE_SOURCE_DIR}/src/mms/market_data/generator_main.cc"
+    "${CMAKE_SOURCE_DIR}/src/mms/market_data/consumer_main.cc"
 )
 
 # Create a shared library for common sources (compiled once, linked multiple times)
@@ -134,9 +137,19 @@ target_include_directories(server PRIVATE
 )
 
 
-target_include_directories(client PRIVATE 
+target_include_directories(client PRIVATE
   ${CMAKE_SOURCE_DIR}/include
 )
+
+add_executable(md_generator src/mms/market_data/generator_main.cc)
+set_target_properties(md_generator PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED YES)
+target_compile_features(md_generator PRIVATE cxx_std_23)
+target_link_libraries(md_generator PRIVATE mms_common)
+
+add_executable(md_consumer src/mms/market_data/consumer_main.cc)
+set_target_properties(md_consumer PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED YES)
+target_compile_features(md_consumer PRIVATE cxx_std_23)
+target_link_libraries(md_consumer PRIVATE mms_common)
 
 # ============================================================================
 # Testing Configuration

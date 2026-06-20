@@ -20,8 +20,7 @@ namespace mms
 /// @todo Align to 64 bytes? -> (measure first)
 ///
 
-// #pragma pack(push, 1)
-/// @brief Incoming data from market
+#pragma pack(push, 1)
 struct MarketData
 {
     std::uint64_t seq_num;
@@ -30,7 +29,7 @@ struct MarketData
     std::uint64_t timestamp_ns;
     char symbol[8];
 };
-// #pragma pack(pop)
+#pragma pack(pop)
 
 /// @brief Market signal
 struct Signal
@@ -87,10 +86,15 @@ struct Worker
 };
 
 constexpr std::uint8_t MAX_SYMBOL_SIZE{6};
+struct Symbol
+{
+    char data[MAX_SYMBOL_SIZE];
+};
+
 struct Option
 {
+    Symbol symbol;
     Price strike;
-    char symbol[MAX_SYMBOL_SIZE];
     std::uint8_t year;
     std::uint8_t month;
     std::uint8_t day;
@@ -98,10 +102,25 @@ struct Option
 
 using TimeStamp = fiah::TimeStamp<>;
 
-struct DepthMessage
+#pragma pack(push, 1)
+struct MarketDepthMessage
 {
     Option option;
-    TimeStamp ts;
+    TimeStamp::rep ts_ns;
+    Price price;
+    std::uint16_t seq;
+    std::uint8_t is_bid : 1;
+    std::uint8_t reserved : 7;
+};
+#pragma pack(pop)
+static_assert(sizeof(MarketDepthMessage) == sizeof(Option) 
+    + sizeof(TimeStamp) + sizeof(Price) + sizeof(std::uint16_t) + sizeof(std::uint8_t));
+
+struct InternalDepthMessage
+{
+    Option option;
+    TimeStamp::rep market_ts_ns;
+    TimeStamp::rep local_ts;
     std::uint16_t seq;
 };
 

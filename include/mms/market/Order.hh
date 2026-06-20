@@ -20,6 +20,7 @@ enum class Side
     Sell
 };
 
+using Price = std::int32_t;
 class Order
 {
   private:
