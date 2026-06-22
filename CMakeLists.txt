@@ -43,11 +43,11 @@ include(FetchContent)
 
 FetchContent_Declare(
   fastinahurry
-#   GIT_REPOSITORY https://gitgud.boo/xbazzi/fastinahurry.git
-#   GIT_TAG        master
+  GIT_REPOSITORY https://gitgud.boo/xbazzi/fastinahurry.git
+  GIT_TAG        master
 
   # Local for testing
-  SOURCE_DIR       /home/xbazzi/repos/fastinahurry
+#   SOURCE_DIR       /home/xbazzi/repos/fastinahurry
 )
 
 # Disable building tests and benchmarks for fastinahurry dependency

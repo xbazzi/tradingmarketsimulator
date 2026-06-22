@@ -2,6 +2,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <cstdlib>
 
 #include <fiah/handle/UniquePtr.hh>
 #include <fiah/io/Udp.hh>
@@ -12,36 +13,19 @@
 
 int main()
 {
+    using namespace std::chrono_literals;
+
     fiah::UdpClient consumer_endpoint{"127.0.0.1", 9001};
     std::array<fiah::UdpClient, 1> endpoints{std::move(consumer_endpoint)};
 
-    auto generator = fiah::make_unique<mms::MarketDataGenerator>(
+    auto generator = fiah::make_unique<mms::MarketDepthGenerator>(
         fiah::UdpServer{"127.0.0.1", 9000},
-        std::span<fiah::UdpClient>{endpoints}
+        std::span<fiah::UdpClient>{endpoints},
+        500ms 
     );
 
-    if (!generator->setup()) {
-        std::cerr << "Failed to setup generator" << std::endl;;
-        return 1;
-    }
-
+    generator->start();
     std::cout << "Sending market depth messages to 127.0.0.1:9001" << std::endl;;
 
-    std::uint16_t seq = 0;
-    fiah::TimeStamp ts;
-
-    while (true) {
-        mms::Option opt = generator->generate_option();
-        mms::MarketDepthMessage msg = generator->generate_depth_message(ts, opt);
-
-        msg.seq = seq++;
-        generator->enqueue(msg);
-        generator->send_depth_message();
-
-        char arr[]{'A', 'G', 'H', 'E', '\0'};
-        std::cout << "Sent seq=" << msg.seq << " symbol=" << msg.option.symbol.data << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    }
-
-    return 0;
+    return EXIT_SUCCESS;
 }

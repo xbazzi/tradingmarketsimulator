@@ -14,9 +14,9 @@ public:
     Price32() : m_price{INVALID_PRICE} {}
     explicit Price32(type price) : m_price{price} {}
 
-    double tof()
+    double tof() const
     {
-        return static_cast<float>(m_price);
+        return static_cast<float>(m_price) / 100.0f;
     }
 
     operator type() const noexcept

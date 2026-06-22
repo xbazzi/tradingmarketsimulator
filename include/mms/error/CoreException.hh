@@ -10,12 +10,14 @@
 
 // MarketMakerSimulator includes
 #include "mms/error/Error.hh"
-// #include "fiah/io/TcpError.hh"
+
+// Third party includes
+#include <fiah/error/Error.hh>
 
 namespace mms
 {
 
-using ErrorVariant = std::variant<std::monostate, TcpError, CoreError, Error>;
+using ErrorVariant = std::variant<std::monostate, fiah::TcpError, CoreError, Error>;
 
 class CoreException : public std::runtime_error
 {
@@ -47,28 +49,28 @@ class CoreException : public std::runtime_error
         return oss.str();
     }
 
-    static std::string enum_to_string(TcpError e)
+    static std::string enum_to_string(fiah::TcpError e)
     {
         switch (e)
         {
-        case TcpError::BAD_SOCKET:
-            return "TcpError::BAD_SOCKET";
-        case TcpError::BIND_FAIL:
-            return "TcpError::BIND_FAIL";
-        case TcpError::LISTEN_FAIL:
-            return "TcpError::LISTEN_FAIL";
-        case TcpError::CONNECT_FAIL:
-            return "TcpError::CONNECT_FAIL";
-        case TcpError::ACCEPT_FAIL:
-            return "TcpError::ACCEPT_FAIL";
-        case TcpError::SEND_FAIL:
-            return "TcpError::SEND_FAIL";
-        case TcpError::RECV_FAIL:
-            return "TcpError::RECV_FAIL";
-        case TcpError::INVALID_IP:
-            return "TcpError::INVALID_IP";
+        case fiah::TcpError::BAD_SOCKET:
+            return "fiah::TcpError::BAD_SOCKET";
+        case fiah::TcpError::BIND_FAIL:
+            return "fiah::TcpError::BIND_FAIL";
+        case fiah::TcpError::LISTEN_FAIL:
+            return "fiah::TcpError::LISTEN_FAIL";
+        case fiah::TcpError::CONNECT_FAIL:
+            return "fiah::TcpError::CONNECT_FAIL";
+        case fiah::TcpError::ACCEPT_FAIL:
+            return "fiah::TcpError::ACCEPT_FAIL";
+        case fiah::TcpError::SEND_FAIL:
+            return "fiah::TcpError::SEND_FAIL";
+        case fiah::TcpError::RECV_FAIL:
+            return "fiah::TcpError::RECV_FAIL";
+        case fiah::TcpError::INVALID_IP:
+            return "fiah::TcpError::INVALID_IP";
         }
-        return "TcpError::UNKNOWN";
+        return "fiah::TcpError::UNKNOWN";
     }
 
     static std::string enum_to_string(CoreError e)
@@ -105,6 +107,8 @@ class CoreException : public std::runtime_error
             return "Error::CORE_ERROR";
         case Error::THREAD_ERROR:
             return "Error::THREAD_ERROR";
+        case Error::DeserializeError:
+            return "Error::DeserializeError";
         }
         return "Error::UNKNOWN";
     }
