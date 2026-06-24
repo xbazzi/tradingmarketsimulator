@@ -7,6 +7,9 @@
 
 #include "mms/market_data/MarketDepthConsumer.hh"
 #include "mms/structs/Structs.hh"
+#include "mms/structs/OptionDepthBook.hh"
+// #include "mms/exchange/OrderBook.hh"
+#include "mms/utils/DumbTypes.hh"
 
 int main()
 {
@@ -24,6 +27,12 @@ int main()
 
     InternalDepthMessage msg{};
     fiah::TimeStamp<>::rep t_last{};
+
+    constexpr auto NO_OPTS = 10uz;
+    OptionDepthBook<Option, NO_OPTS> book{};
+    std::print("{} with {} options", book.create()? "Created book ": "Could not create book ", NO_OPTS);
+
+
     while (true) {
         if (consumer.try_pop(msg))
         {

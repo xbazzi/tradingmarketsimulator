@@ -1,0 +1,3 @@
+#include <string>
+using worst_type_ever =
+decltype([]<class X, template <typename> class... Y>[[nodiscard]][[noreturn]][[maybe_unused]][[deprecated]](this auto bitand self, Y<X>&&... args) consteval noexcept->decltype(0uz) requires requires {{X{}}noexcept;}{return self(std::forward<Y<X>>(args)...);})(std::string::*(*() const volatile and noexcept(noexcept(((int{int{}}))))) ())[([](auto p, auto n)->int{return p==n*p;}(69, 1))];

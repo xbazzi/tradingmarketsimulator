@@ -122,7 +122,7 @@ struct MarketDepthMessage
 {
     enum class Flags : std::uint8_t
     {
-        IsBid = 0b0000'0001,
+        IsBidBit = 0b0000'0001,
     };
     struct Header
     {
@@ -178,7 +178,7 @@ struct WireDepthMsgV1
 
     static constexpr auto TIMESTAMP_OFFSET = WireMessage::HEADER_SIZE;
     static constexpr auto SEQUENCE_OFFSET  = TIMESTAMP_OFFSET + sizeof(std::uint64_t);
-    static constexpr auto SYMBOL_OFFSET    = SEQUENCE_OFFSET + sizeof(std::uint32_t);
+    static constexpr auto SYMBOL_OFFSET    = SEQUENCE_OFFSET + sizeof(std::uint16_t);
     static constexpr auto YEAR_OFFSET      = SYMBOL_OFFSET + Symbol::MAX_SYMBOL_SIZE;
     static constexpr auto MONTH_OFFSET     = YEAR_OFFSET + sizeof(std::uint8_t);
     static constexpr auto DAY_OFFSET       = MONTH_OFFSET + sizeof(std::uint8_t);

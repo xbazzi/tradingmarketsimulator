@@ -38,8 +38,7 @@ public:
 
     void send_msg() noexcept;
 
-    MarketDepthMessage generate_depth_message() const noexcept;
-
+    MarketDepthMessage generate_depth_message() noexcept;
 
     template <std::ranges::input_range T>
         requires std::convertible_to<Symbol, std::ranges::range_value_t<T>>
@@ -55,7 +54,7 @@ public:
 
 private:
     Option _generate_option(std::size_t idx) const noexcept;
-    MarketDepthMessage::Header _generate_header() const noexcept;
+    MarketDepthMessage::Header _generate_header() noexcept;
     MarketDepthPacket _serialize(const MarketDepthMessage& msg) noexcept;
     void _write_u8(MarketDepthPacket& buf, std::size_t offset, std::uint8_t val) noexcept;
     void _write_u16(MarketDepthPacket& buf, std::size_t offset, std::uint16_t val) noexcept;

@@ -42,7 +42,7 @@ InternalDepthMessage MarketDepthConsumer::_deserialize(const WireDepthMsgV1::Buf
     const auto length = _read_u8(buf, WireMessage::LENGTH_OFFSET);
 
     msg.market_ts_ns = _read_u64(buf, WireDepthMsgV1::TIMESTAMP_OFFSET);
-    msg.seq = _read_u8(buf, WireDepthMsgV1::SEQUENCE_OFFSET);
+    msg.seq = _read_u16(buf, WireDepthMsgV1::SEQUENCE_OFFSET);
     std::memcpy(&msg.option.symbol, buf.data() + WireDepthMsgV1::SYMBOL_OFFSET, Symbol::MAX_SYMBOL_SIZE);
     msg.option.year = _read_u8(buf, WireDepthMsgV1::YEAR_OFFSET);
     msg.option.month = _read_u8(buf, WireDepthMsgV1::MONTH_OFFSET);

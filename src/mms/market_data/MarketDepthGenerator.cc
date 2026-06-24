@@ -23,17 +23,17 @@ void MarketDepthGenerator::enqueue(const MarketDepthMessage& msg) noexcept
     m_send_q.push(msg);
 }
 
-MarketDepthMessage MarketDepthGenerator::generate_depth_message() const noexcept
+MarketDepthMessage MarketDepthGenerator::generate_depth_message() noexcept
 {
     std::uniform_int_distribution price_modifier{1000, 5000};
     std::uniform_int_distribution side_dist{0, 1};
     std::uniform_int_distribution idx_dist{0, static_cast<int>(m_symbols.size() - 1)};
     const auto idx = static_cast<std::size_t>(idx_dist(m_prng));
-    const auto is_bid = static_cast<bool>(side_dist(m_prng));
+    const auto is_bid = static_cast<std::uint8_t>(side_dist(m_prng));
     Price price = is_bid?
         Price{m_base_prices[idx] - price_modifier(m_prng)}: 
         Price{m_base_prices[idx] + price_modifier(m_prng)};
-    const std::uint8_t flags = is_bid;
+    const std::uint8_t flags = is_bid & std::to_underlying(MarketDepthMessage::Flags::IsBidBit);
 
 
     return {
@@ -73,7 +73,7 @@ Option MarketDepthGenerator::_generate_option(std::size_t idx) const noexcept
 }
 
 
-MarketDepthMessage::Header MarketDepthGenerator::_generate_header() const noexcept
+MarketDepthMessage::Header MarketDepthGenerator::_generate_header() noexcept
 {
     MarketDepthMessage::Header header{};
     header.version = WireDepthMsgV1::VERSION;
@@ -91,7 +91,7 @@ auto MarketDepthGenerator::_serialize(const MarketDepthMessage& msg) noexcept
     _write_u16(buf, WireMessage::LENGTH_OFFSET, WireDepthMsgV1::LENGTH);
 
     _write_u64(buf, WireDepthMsgV1::TIMESTAMP_OFFSET, msg.header.ts_ns);
-    _write_u32(buf, WireDepthMsgV1::SEQUENCE_OFFSET, msg.header.seq);
+    _write_u16(buf, WireDepthMsgV1::SEQUENCE_OFFSET, msg.header.seq);
 
     std::memcpy(buf.data() + WireDepthMsgV1::SYMBOL_OFFSET, msg.option.symbol.data, Symbol::MAX_SYMBOL_SIZE);
     _write_u8(buf, WireDepthMsgV1::YEAR_OFFSET, msg.option.year);
