@@ -50,11 +50,18 @@ FetchContent_Declare(
 #   SOURCE_DIR       /home/xbazzi/repos/fastinahurry
 )
 
+FetchContent_Declare(
+  robin_hood
+  GIT_REPOSITORY https://github.com/martinus/robin-hood-hashing.git
+  GIT_TAG        master
+)
+
 # Disable building tests and benchmarks for fastinahurry dependency
 set(BUILD_TESTING OFF)
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 set(SKIP_BENCHMARKS ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(fastinahurry)
+set(ROBIN_HOOD_TESTING OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(fastinahurry robin_hood)
 set(BUILD_TESTING ON)
 
 
@@ -105,6 +112,7 @@ target_include_directories(mms_common PUBLIC
 )
 target_link_libraries(mms_common PUBLIC
   nlohmann_json::nlohmann_json
+  robin_hood::robin_hood
   # toml11::toml11
 )
 
@@ -155,7 +163,7 @@ target_link_libraries(md_consumer PRIVATE mms_common)
 # Testing Configuration
 # ============================================================================
 
-file(GLOB_RECURSE TEST_SOURCES
+file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_SOURCE_DIR}/tests/*_test.cc"
     "${CMAKE_SOURCE_DIR}/tests/test.cc"
 )

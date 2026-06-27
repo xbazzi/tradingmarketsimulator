@@ -7,6 +7,8 @@
 #include <ranges>
 #include <random>
 #include <print>
+#include <thread>
+#include <functional>
 
 #include "mms/error/Error.hh"
 #include "mms/structs/Structs.hh"
@@ -21,12 +23,15 @@ class MarketDepthGenerator
 {
 public:
     using MarketDepthPacket = std::array<std::byte, WireDepthMsgV1::size>;
+    using GenFn = std::move_only_function<MarketDepthMessage()>;
 
     template <class Rep, class Period>
     explicit MarketDepthGenerator(fiah::UdpServer udp, std::span<fiah::UdpClient> clients, std::chrono::duration<Rep, Period>);
 
-    MarketDepthGenerator() = default;
+    template <class Rep, class Period>
+    explicit MarketDepthGenerator(fiah::UdpServer udp, std::span<fiah::UdpClient> clients, std::chrono::duration<Rep, Period>, GenFn gen_fn);
 
+    MarketDepthGenerator() = default;
     ~MarketDepthGenerator() = default;
 
     void start() noexcept;
@@ -74,14 +79,22 @@ private:
     mutable fiah::XorBitant m_prng;
     std::uint16_t m_seq;
     std::chrono::nanoseconds m_sleep_dur;
+    GenFn m_gen_fn;
 };
 
 template <class Rep, class Period>
-MarketDepthGenerator::MarketDepthGenerator(fiah::UdpServer udp, std::span<fiah::UdpClient> clients, std::chrono::duration<Rep, Period> sleep_dur) 
+MarketDepthGenerator::MarketDepthGenerator(fiah::UdpServer udp, std::span<fiah::UdpClient> clients, 
+                                           std::chrono::duration<Rep, Period> sleep_dur) 
+    : MarketDepthGenerator(std::move(udp), clients, sleep_dur, [this]{ return generate_depth_message(); }) { }
+
+template <class Rep, class Period>
+MarketDepthGenerator::MarketDepthGenerator(fiah::UdpServer udp, std::span<fiah::UdpClient> clients, 
+                                           std::chrono::duration<Rep, Period> sleep_dur, GenFn gen_fn) 
     : m_udp{std::move(udp)},
       m_prng{std::random_device{}()},
       m_seq{},
-      m_sleep_dur{sleep_dur}
+      m_sleep_dur{sleep_dur},
+      m_gen_fn{std::move(gen_fn)}
 {
     m_udp.start();
 
@@ -91,14 +104,16 @@ MarketDepthGenerator::MarketDepthGenerator(fiah::UdpServer udp, std::span<fiah::
     fill_baseprice(std::initializer_list{Price{21000}, Price{32000}, Price{16000}, Price{85000}, Price{92000}});
 }
 
-template <bool print_log>
+
+
+template <bool PRINT_LOG>
 void MarketDepthGenerator::run() noexcept
 {
     while (true)
     {
-        const auto msg = generate_depth_message();
+        const auto msg = m_gen_fn();
         enqueue(msg);
-        if constexpr (print_log)
+        if constexpr (PRINT_LOG)
             std::print("[{}]Sent: {}{:2d}{:02d}{:02d}{}{:0.2f}, seq={}\n",
                 msg.header.ts_ns,
                 msg.option.symbol.data, msg.option.year, msg.option.month, msg.option.day,

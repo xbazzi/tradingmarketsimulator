@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <thread>
 #include <string>
+#include <format>
 
 #include "mms/market/Price.hh"
 #include "fiah/utils/TimeStamp.hh"
@@ -49,7 +50,7 @@ struct Signal
     std::uint64_t timestamp_ns;
 };
 
-struct Order
+struct OrderV1
 {
     char symbol[8];
     enum class Side : std::uint8_t
@@ -62,6 +63,35 @@ struct Order
     uint64_t order_id;
     uint64_t timestamp_ns;
 };
+
+struct Symbol
+{
+    static constexpr std::uint8_t MAX_SYMBOL_SIZE{6};
+    char data[MAX_SYMBOL_SIZE];
+};
+
+struct Order
+{
+    Symbol symbol;
+    enum class Side : std::uint8_t { Bid, Ask };
+    Side side;
+    Price price;
+    std::uint32_t qty;
+    std::uint32_t id;
+    std::uint64_t rcv_ts;
+    std::uint8_t flags;
+
+    constexpr Side opp_side() { return side == Side::Bid? Side::Ask: Side::Bid; };
+    constexpr bool is_valid() 
+    { 
+        const bool valid_price = price.is_valid();
+        const bool valid_qty = qty > 0;
+        const bool valid_order = valid_price & valid_qty;
+        return valid_order;
+    };
+    constexpr bool is_bid() { return side == Side::Bid? true: false; };
+};
+
 
 struct Task
 {
@@ -76,7 +106,7 @@ struct Task
     union {
         MarketData market_data;
         Signal signal;
-        Order order;
+        OrderV1 order;
     };
 };
 
@@ -88,11 +118,6 @@ struct Worker
     int cpu_affinity;
 };
 
-struct Symbol
-{
-    static constexpr std::uint8_t MAX_SYMBOL_SIZE{6};
-    char data[MAX_SYMBOL_SIZE];
-};
 
 enum class Flags : std::uint8_t
 {
@@ -205,3 +230,19 @@ constexpr std::size_t INTERNAL_DEPTH_MSG_LEN{sizeof(InternalDepthMessage)};
 
 
 } // End namespace mms
+
+template <>
+struct std::formatter<mms::Order>
+{
+    constexpr auto parse(std::format_parse_context& ctx) { return ctx.begin(); }
+    auto format(const mms::Order& o, std::format_context& ctx) const
+    {
+        return std::format_to(ctx.out(), "Order{{id={}, side={}, price={}, qty={}}}",
+            o.id,
+            o.side == mms::Order::Side::Bid ? "Bid" : "Ask",
+            static_cast<mms::Price::type>(o.price),
+            o.qty
+        );
+    }
+
+};

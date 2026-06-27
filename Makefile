@@ -9,21 +9,21 @@ help: ## Show this help message
 
 # Default target: build everything
 all: configure ## Build all targets
-	cmake --build $(BUILD_DIR) -j 8
+	cmake --build $(BUILD_DIR)
 
-# Build only the "options" target
 options: configure ## Build options target
-	cmake --build $(BUILD_DIR) --target options -j 8
-build-test: configure ## Build test target
-	cmake --build $(BUILD_DIR) --target unit_tests -j 8
+	cmake --build $(BUILD_DIR) --target options
+tests: configure ## Build and run unit tests (use FILTER=pattern to match specific tests)
+	cmake --build $(BUILD_DIR) --target unit_tests && $(BUILD_DIR)/bin/unit_tests $(if $(FILTER),--gtest_filter=$(FILTER),)
 md_consumer: configure ## Build md_consumer binary
-	cmake --build $(BUILD_DIR) --target md_consumer -j 8
+	cmake --build $(BUILD_DIR) --target md_consumer
 md_generator: configure ## Build md_generator binary
-	cmake --build $(BUILD_DIR) --target md_generator -j 8
+	cmake --build $(BUILD_DIR) --target md_generator
+mms: configure md_generator md_consumer
 
 # Configure step (only runs once unless CMakeLists.txt changes)
 $(BUILD_DIR)/CMakeCache.txt: CMakeLists.txt ## Configure build directory
-	cmake -S . -B $(BUILD_DIR) 
+	cmake -S . -B $(BUILD_DIR) -G Ninja -DCMAKE_COLOR_DIAGNOSTICS=ON
 
 configure: $(BUILD_DIR)/CMakeCache.txt 
 

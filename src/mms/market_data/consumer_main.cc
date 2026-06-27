@@ -8,7 +8,6 @@
 #include "mms/market_data/MarketDepthConsumer.hh"
 #include "mms/structs/Structs.hh"
 #include "mms/structs/OptionDepthBook.hh"
-// #include "mms/exchange/OrderBook.hh"
 #include "mms/utils/DumbTypes.hh"
 
 int main()

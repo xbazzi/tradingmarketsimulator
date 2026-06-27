@@ -231,10 +231,10 @@ void Core::_execution_loop()
         {
             if (m_signal_queue.pop(signal))
             {
-                Order order = _generate_order(signal);
+                OrderV1 order = _generate_order(signal);
 
                 // Send order out
-                LOG_INFO("Executing order: ", order.symbol, " ", (order.side == Order::Side::BUY ? "BUY" : "SELL"), " ",
+                LOG_INFO("Executing order: ", order.symbol, " ", (order.side == OrderV1::Side::BUY ? "BUY" : "SELL"), " ",
                          order.quantity, " @ ", order.price);
 
                 m_orders_sent.fetch_add(1, std::memory_order_relaxed);
@@ -299,12 +299,12 @@ Signal Core::_compute_signal(const MarketData &md)
     return signal;
 }
 
-Order Core::_generate_order(const Signal &signal)
+OrderV1 Core::_generate_order(const Signal &signal)
 {
     static std::atomic<uint64_t> s_order_id_counter{1};
-    Order order;
+    OrderV1 order;
     std::memcpy(order.symbol, signal.symbol, sizeof(order.symbol));
-    order.side = (signal.type == Signal::Type::BUY) ? Order::Side::BUY : Order::Side::SELL;
+    order.side = (signal.type == Signal::Type::BUY) ? OrderV1::Side::BUY : OrderV1::Side::SELL;
     order.price = signal.price;
     order.quantity = signal.quantity;
     order.order_id = s_order_id_counter.fetch_add(1, std::memory_order_relaxed);
