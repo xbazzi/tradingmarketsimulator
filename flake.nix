@@ -37,7 +37,6 @@
             boost
             gtest
             gbenchmark
-            nlohmann_json
             doxygen
             graphviz
             valgrind

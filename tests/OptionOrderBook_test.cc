@@ -13,15 +13,15 @@ class OptionOrderBookTest : public ::testing::Test
 protected:
     static constexpr auto SIZE{1ULL << 10};
     static constexpr StringT SYMBOL{"SPCX"};
+    static constexpr bool LOG{false};
 
-    void SetUp() override
+    void SetUp() override 
     {
-        m_obj = OptionOrderBook<SIZE, SYMBOL, LOG>{};
     }
+
 
     void TearDown() override
     {
-        return;
     }
 
 

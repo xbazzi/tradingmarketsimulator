@@ -1,4 +1,5 @@
 build/
+CMakeUserPresets.json
 .direnv/
 .vscode
 html/

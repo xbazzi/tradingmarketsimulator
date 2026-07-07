@@ -22,13 +22,6 @@ int main()
     fiah::UdpClient consumer_endpoint{"127.0.0.1", 9001};
     std::array<fiah::UdpClient, 1> endpoints{std::move(consumer_endpoint)};
 
-    // auto generator = fiah::make_unique<mms::MarketDepthGenerator>(
-    //     std::move(local_server),
-    //     std::span<fiah::UdpClient>{endpoints},
-    //     500ms
-    // );
-
-    // generator->start();
 
     Option opt{};
     opt.strike = Price{10000};
@@ -60,7 +53,7 @@ int main()
     order_book.set_fill_fn([&order_gen](std::uint32_t id) { order_gen.notify_fill(id); });
 
 
-    std::cout << "Sending market depth messages to 127.0.0.1:9001" << std::endl;;
+    std::cout << "Sending market depth messages to 127.0.0.1:9001" << std::endl;
     order_gen.start();
     std::this_thread::sleep_until(std::chrono::steady_clock::time_point::max());
 

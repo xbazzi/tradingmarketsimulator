@@ -151,7 +151,7 @@ struct MarketDepthMessage
     };
     struct Header
     {
-        TimeStamp::rep ts_ns;
+        TimeStamp::Rep ts_ns;
         std::uint16_t seq;
         std::uint8_t version;
         std::byte _reserved[5];
@@ -171,8 +171,8 @@ static_assert(offsetof(MarketDepthMessage::Header, seq) % alignof(std::uint16_t)
 struct InternalDepthMessage
 {
     Option option;
-    TimeStamp::rep market_ts_ns;
-    TimeStamp::rep local_ts;
+    TimeStamp::Rep market_ts_ns;
+    TimeStamp::Rep local_ts;
     Price price;
     std::uint16_t seq;
     std::uint8_t flags;

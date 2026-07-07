@@ -25,7 +25,7 @@ int main()
     std::print("Listening for market depth messages on port 9001...\n");
 
     InternalDepthMessage msg{};
-    fiah::TimeStamp<>::rep t_last{};
+    fiah::TimeStamp<>::Rep t_last{};
 
     constexpr auto NO_OPTS = 10uz;
     OptionDepthBook<Option, NO_OPTS> book{};

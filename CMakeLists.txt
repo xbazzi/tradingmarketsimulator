@@ -35,20 +35,23 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-find_package(nlohmann_json REQUIRED)
 # find_package(toml11 REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(GTest REQUIRED)
 include(FetchContent)
 
-FetchContent_Declare(
-  fastinahurry
-  GIT_REPOSITORY https://gitgud.boo/xbazzi/fastinahurry.git
-  GIT_TAG        master
+set(FASTINAHURRY_LOCAL_PATH "" CACHE PATH
+    "Local fastinahurry checkout. Leave empty to fetch from git.")
 
-  # Local for testing
-#   SOURCE_DIR       /home/xbazzi/repos/fastinahurry
-)
+if(FASTINAHURRY_LOCAL_PATH AND EXISTS "${FASTINAHURRY_LOCAL_PATH}/CMakeLists.txt")
+    FetchContent_Declare(fastinahurry SOURCE_DIR "${FASTINAHURRY_LOCAL_PATH}")
+else()
+    FetchContent_Declare(
+        fastinahurry
+        GIT_REPOSITORY https://gitgud.boo/xbazzi/fastinahurry.git
+        GIT_TAG        master
+    )
+endif()
 
 FetchContent_Declare(
   robin_hood
@@ -111,7 +114,6 @@ target_include_directories(mms_common PUBLIC
   ${fastinahurry_SOURCE_DIR}/include
 )
 target_link_libraries(mms_common PUBLIC
-  nlohmann_json::nlohmann_json
   robin_hood::robin_hood
   # toml11::toml11
 )

@@ -23,7 +23,16 @@ mms: configure md_generator md_consumer
 
 # Configure step (only runs once unless CMakeLists.txt changes)
 $(BUILD_DIR)/CMakeCache.txt: CMakeLists.txt ## Configure build directory
-	cmake -S . -B $(BUILD_DIR) -G Ninja -DCMAKE_COLOR_DIAGNOSTICS=ON
+	@NINJA=$$(which ninja 2>/dev/null); \
+	if [ -z "$$NINJA" ]; then \
+		echo "Error: 'ninja' not found. Run: nix develop (or ensure direnv is active)."; \
+		exit 1; \
+	fi; \
+	if [ -f CMakeUserPresets.json ]; then \
+		cmake --preset local; \
+	else \
+		cmake -S . -B $(BUILD_DIR) -G Ninja -DCMAKE_MAKE_PROGRAM=$$NINJA -DCMAKE_COLOR_DIAGNOSTICS=ON; \
+	fi
 
 configure: $(BUILD_DIR)/CMakeCache.txt 
 

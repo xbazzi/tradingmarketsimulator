@@ -1,6 +1,7 @@
 // C++ Includes
 #include <cstddef>
 #include <functional>
+#include <print>
 #include <vector>
 #include <robin_hood.h>
 #include <ranges>
@@ -8,6 +9,7 @@
 
 // Third Party Includes
 #include <fiah/structs/SPSCQueue.hh>
+#include <fiah/memory/BumpAllocator.hh>
 
 // MarketMakerSimulator Includes
 #include "mms/structs/Structs.hh"
@@ -33,7 +35,7 @@ class OptionOrderBook
 public:
 
     using OrderT = Order;
-    using ContainerT = std::vector<OrderT>;
+    using ContainerT = std::vector<OrderT, fiah::BumpAllocator<OrderT>>;
     using Side = Order::Side;
     using MapT = robin_hood::unordered_flat_map<std::uint32_t, Side>;
     using FillFn = std::move_only_function<void(std::uint32_t)>;
@@ -54,8 +56,12 @@ public:
 protected:
 
 private:
-    ContainerT m_bids;
-    ContainerT m_asks;
+    alignas(alignof(OrderT)) std::byte m_bid_buf[SIZE * sizeof(OrderT)];
+    alignas(alignof(OrderT)) std::byte m_ask_buf[SIZE * sizeof(OrderT)];
+    fiah::BumpArena m_bid_arena{m_bid_buf, SIZE * sizeof(OrderT)};
+    fiah::BumpArena m_ask_arena{m_ask_buf, SIZE * sizeof(OrderT)};
+    ContainerT m_bids{fiah::BumpAllocator<OrderT>{&m_bid_arena}};
+    ContainerT m_asks{fiah::BumpAllocator<OrderT>{&m_ask_arena}};
     MapT m_order_ids_to_side;
     FillFn m_fill_fn;
 };

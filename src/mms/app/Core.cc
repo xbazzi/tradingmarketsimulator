@@ -15,7 +15,6 @@
 
 // Third Party Includes
 #include <fiah/io/Config.hh>
-#include <fiah/io/JSONReader.hh>
 #include <fiah/structs/Vector.hh>
 #include <fiah/utils/Logger.hh>
 #include <fiah/utils/Timer.hh>
