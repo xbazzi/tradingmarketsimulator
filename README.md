@@ -1,14 +1,12 @@
-# MarketMakerSimulator🏃‍♀️‍➡️
-Financial market streaming and order execution simulator written in C++.
+# Trading Market Simulator 🏦
+Trading simulator catch-all repo, for now.
 
 Low latency, data locality, and high performance are paramount.
 
-
-This project is in a bit of a Frankenstein mode right now where I use it as a catch-all for trading-related applications.
-The goal is to break up the repo into its individual core components, 2 for now:
+This project is in a bit of a Frankenstein mode right now with different trading-related components.
+The current goal is to break up the repo into smaller pieces, 2 for now:
  - An exchange-side simulator that replicates exchange dynamics
- - A market maker simulator to plug into the exchange(s) and process market data with trading applications
-
+ - A market maker simulator to plug into the exchange(s) and feed structured market data into trading apps
 
 <mark>Only tested on Linux</mark>, and it works on any distro. Not tested on MacOS *yet*. There will never be Windows support.
 
