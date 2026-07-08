@@ -13,13 +13,12 @@ The current goal is to break up the repo into smaller pieces, 2 for now:
 # Requirements / Dependencies
 The easiest way to get a known-good environment is by using Nix (see below), but if you prefer system packages, the list below covers what CMake asks for.
 
-Minimum / runtime build deps:
+Minimum deps:
 - A C++ compiler with C++23 support (g++ or clang)
 - CMake (>= 4.0)
 - Ninja (default) or Make
-- pkg-config
 
-Additional (for tests / benchmarks / dev):
+Required for running tests/benchmarks:
 - Google Test (`find_package(GTest REQUIRED)`)
 - Google Benchmark (`find_package(benchmark REQUIRED)`)
 
@@ -58,16 +57,15 @@ Install nix (and optionally direnv) and run the `flake.nix` to load all dependen
 nix develop
 ```
 
-This will drop you into a shell with the proper dependencies. Then build the project:
+You'll be dropped into a shell with the proper dependencies. Then build the project:
 
 ```bash
 make all
 ```
 
 ## Using non-Nix package managers
-If you prefer not to use Nix, just install the dependencies shown above for your distro.
-
-Once you have the dependencies, run the Makefile from the project root:
+If you prefer not to use Nix, go ahead and install the dependencies shown above for your distro.
+Then run the Makefile from the project root:
 
 ```bash
 make all
@@ -88,6 +86,8 @@ Available targets:
 
 # The benefits of Nix
 If you have direnv, run `direnv allow` and enjoy having your packages loaded automatically when you `cd` into the repo; no need to run `nix develop` every time you're in a new shell or to switch shells for multiple projects.
+
+Switching to `devenv` soon.
 
 # Troubleshooting
 - For development you may want additional tools such as `clang-format`, `ccache`, `valgrind`/`memcheck`, or benchmarking tooling available in `benchmarks/`.
