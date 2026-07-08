@@ -3,11 +3,14 @@
 #include <memory>
 #include <thread>
 
+#include <fiah/io/Config.hh>
+#include <fiah/utils/Types.hh>
+
 #include "mms/app/Core.hh"
 #include "mms/error/CoreException.hh"
 #include "mms/error/Error.hh"
-#include "fiah/io/Config.hh"
 #include "test_utils.hh"
+
 
 using namespace mms;
 using namespace std::chrono_literals;

@@ -8,10 +8,13 @@
 // Third party
 #include <fiah/io/Udp.hh>
 #include <fiah/structs/SPSCQueue.hh>
+#include <fiah/utils/Types.hh>
 
 // MMS Includes
 #include "mms/error/Error.hh"
 #include "mms/structs/Structs.hh"
+
+using namespace fiah;
 
 namespace mms
 {
@@ -31,10 +34,15 @@ public:
 
 private:
     InternalDepthMessage _deserialize(const WireDepthMsgV1::Buffer& buf) noexcept;
-    std::uint8_t _read_u8(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
-    std::uint16_t _read_u16(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
-    std::uint32_t _read_u32(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
-    std::uint64_t _read_u64(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+    u8_t _read_u8(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+    u16_t _read_u16(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+    u32_t _read_u32(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+    u64_t _read_u64(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+
+    i8_t _read_i8(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+    i16_t _read_i16(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+    i32_t _read_i32(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
+    i64_t _read_i64(const WireDepthMsgV1::Buffer& buf, std::size_t offset) noexcept;
 
 private:
     fiah::SPSCQueue<InternalDepthMessage, 1 << 10> m_recv_queue;

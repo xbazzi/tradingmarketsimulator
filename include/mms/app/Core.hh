@@ -113,7 +113,7 @@ class Core
 
     // Strategy logic
     Signal _compute_signal(const MarketData &md);
-    OrderV1 _generate_order(const Signal &signal);
+    v1::Order _generate_order(const Signal &signal);
 
     /// @brief Attempt to set thread affinity. Prints logs if it was
     /// unsuccessful.
