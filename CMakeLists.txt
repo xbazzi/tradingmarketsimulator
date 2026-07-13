@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.25)
 project(MarketMakerSimulator CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 enable_testing()
@@ -11,23 +11,24 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_compile_options( 
-        -g3 
+    add_compile_options(
+        -g3
         -Og
         -fsanitize=address,undefined,leak
-        -fno-omit-frame-pointer 
+        -fno-omit-frame-pointer
         -Wall
         -Wno-interference-size
     )
+    add_link_options(-fsanitize=address,undefined,leak)
 else()
     add_compile_options(
         -O3
         -g
         -march=native
         -Wall
+        -Wno-interference-size
     )
 endif()
-add_link_options(-Wno-interference-size -fsanitize=address,undefined,leak)
 
 
 # Compiler flags and other goodies

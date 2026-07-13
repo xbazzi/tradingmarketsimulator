@@ -1,4 +1,9 @@
 # Trading Market Simulator 🏦
+
+[![CI](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions/workflows/ci.yml/badge.svg)](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions)
+[![GCC](https://img.shields.io/badge/GCC-14-blue?logo=gnu)](https://gcc.gnu.org/)
+[![coverage](https://img.shields.io/endpoint?url=https://gitgud.boo/xbazzi/tradingmarketsimulator/raw/branch/badges/coverage.json)](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions)
+
 Trading simulator catch-all repo, for now.
 
 Low latency, data locality, and high performance are paramount.
@@ -15,7 +20,7 @@ The easiest way to get a known-good environment is by using Nix (see below), but
 
 Minimum deps:
 - A C++ compiler with C++23 support (g++ or clang)
-- CMake (>= 4.0)
+- CMake (>= 3.25)
 - Ninja (default) or Make
 
 Required for running tests/benchmarks:

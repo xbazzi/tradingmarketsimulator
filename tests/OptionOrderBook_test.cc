@@ -25,12 +25,12 @@ protected:
     }
 
 
-    static Order make_order(Order::Side side, std::uint32_t id)
+    static Order make_order(Order::Side side, std::uint32_t id, Price price = Price{30000})
     {
         return Order {
             "AAPL",
             side,
-            Price{30000},
+            price,
             3,
             id,
             1234,
@@ -49,17 +49,17 @@ TEST_F(OptionOrderBookTest, OptionOrderBookTest_AddRemove)
 
     std::uint32_t id{0};
     auto side = Order::Side::Bid;
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{29000})));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{29000})));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{29000})));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{29000})));
     EXPECT_EQ(4, m_obj.get_container(Order::Side::Bid).size());
 
     side = Order::Side::Ask;
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
-    EXPECT_TRUE(m_obj.add(make_order(side, ++id)));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{31000})));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{31000})));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{31000})));
+    EXPECT_TRUE(m_obj.add(make_order(side, ++id, Price{31000})));
     EXPECT_EQ(4, m_obj.get_container(Order::Side::Bid).size());
 
     EXPECT_TRUE(m_obj.remove(id));

@@ -7,6 +7,7 @@
 
 namespace mms {
 
+/// @todo switch to fiah types
 class Price32
 {
 public:
