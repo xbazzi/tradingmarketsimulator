@@ -63,6 +63,7 @@ jobs:
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         run: |
           BADGE=$(cat coverage.json)
+          rm -f coverage.json
           git fetch origin
           if git ls-remote --exit-code origin badges; then
             git checkout -b badges origin/badges
