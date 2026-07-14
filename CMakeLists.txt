@@ -17,7 +17,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         -fsanitize=address,undefined,leak
         -fno-omit-frame-pointer
         -Wall
-        -Wno-interference-size
     )
     add_link_options(-fsanitize=address,undefined,leak)
 else()
@@ -26,8 +25,11 @@ else()
         -g
         -march=native
         -Wall
-        -Wno-interference-size
     )
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-Wno-interference-size)
 endif()
 
 

@@ -1,7 +1,10 @@
 # Trading Market Simulator 🏦
 
-[![CI](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions/workflows/ci.yml/badge.svg)](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions)
+[![GCC Debug](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions/workflows/gcc-debug.yml/badge.svg)](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions)
+[![GCC Release](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions/workflows/gcc-release.yml/badge.svg)](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions)
+[![Clang Debug](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions/workflows/clang-debug.yml/badge.svg)](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions)
 [![GCC](https://img.shields.io/badge/GCC-14-blue?logo=gnu)](https://gcc.gnu.org/)
+[![Clang](https://img.shields.io/badge/Clang-21-blue?logo=llvm)](https://clang.llvm.org/)
 [![coverage](https://img.shields.io/endpoint?url=https://gitgud.boo/xbazzi/tradingmarketsimulator/raw/branch/badges/coverage.json)](https://gitgud.boo/xbazzi/tradingmarketsimulator/actions)
 
 Trading simulator catch-all repo, for now.

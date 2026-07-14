@@ -45,8 +45,8 @@
           shell = pkgs.zsh;
           shellHook = ''
             echo "Welcome to the MarketMakerSimulator flake dev shell"
-            export CC=gcc
-            export CXX=g++
+            export CC=''${CC:-gcc}
+            export CXX=''${CXX:-g++}
           '';
         };
       }

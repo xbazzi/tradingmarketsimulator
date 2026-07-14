@@ -1,4 +1,4 @@
-name: CI
+name: GCC Debug
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  debug-with-coverage:
+  gcc-debug:
     runs-on: ubuntu-latest
     container: node:22-trixie
 
@@ -76,34 +76,3 @@ jobs:
           git add coverage.json
           git diff --cached --quiet || git commit -m "ci: update coverage badge"
           git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@gitgud.boo/xbazzi/tradingmarketsimulator.git" badges
-
-  release:
-    runs-on: ubuntu-latest
-    container: node:22-trixie
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          apt-get update
-          apt-get install -y \
-            build-essential \
-            cmake \
-            ninja-build \
-            pkg-config \
-            libgtest-dev \
-            libbenchmark-dev
-
-      - name: Configure
-        run: |
-          cmake -B build \
-            -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build
-        run: cmake --build build --parallel $(nproc)
-
-      - name: Test
-        run: ctest --test-dir build --output-on-failure
