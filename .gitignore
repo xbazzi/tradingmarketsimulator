@@ -9,3 +9,4 @@ perf*
 vtune*
 LastTest.log
 CTest*
+.devenv/
